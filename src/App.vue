@@ -10,6 +10,7 @@
   </div>
 
   <ContainerPage :datas="datas" />
+  <button @click="morePost">더보기</button>
 
   <div class="footer">
     <ul class="footer-button-plus">
@@ -22,12 +23,24 @@
 <script>
 import ContainerPage from "./components/ContainerPage.vue";
 import instaData from "./assets/data";
+import axios from "axios";
+
 export default {
   name: "App",
   data() {
-    return { datas: instaData };
+    return { datas: instaData, count: 0 };
   },
   components: { ContainerPage },
+  methods: {
+    morePost() {
+      axios
+        .get(`https://codingapple1.github.io/vue/more${this.count}.json`)
+        .then((post) => {
+          this.datas.push(post.data);
+          this.count++;
+        });
+    },
+  },
 };
 </script>
 
