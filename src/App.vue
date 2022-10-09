@@ -4,17 +4,23 @@
       <li>Cancel</li>
     </ul>
     <ul class="header-button-right">
-      <li>Next</li>
+      <li v-if="step === 1" @click="step++">Next</li>
+      <li v-if="step === 2" @click="publish">발행</li>
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
 
-  <ContainerPage :datas="datas" />
+  <ContainerPage
+    :datas="datas"
+    :step="step"
+    :url="image"
+    @write="newWrite = $event"
+  />
   <button @click="morePost">더보기</button>
 
   <div class="footer">
     <ul class="footer-button-plus">
-      <input type="file" id="file" class="inputfile" />
+      <input @change="upload" type="file" id="file" class="inputfile" />
       <label for="file" class="input-plus">+</label>
     </ul>
   </div>
@@ -28,7 +34,14 @@ import axios from "axios";
 export default {
   name: "App",
   data() {
-    return { datas: instaData, count: 0 };
+    return {
+      datas: instaData,
+      count: 0,
+      step: 0,
+      image: "",
+      newWrite: "",
+      selectfilter: "",
+    };
   },
   components: { ContainerPage },
   methods: {
@@ -40,6 +53,32 @@ export default {
           this.count++;
         });
     },
+    upload(e) {
+      let file = e.target.files;
+      console.log(file[0]);
+      let url = URL.createObjectURL(file[0]);
+      this.image = url;
+      this.step++;
+    },
+    publish() {
+      var newPost = {
+        name: "Kim Hyun",
+        userImage: "https://placeimg.com/100/100/arch",
+        postImage: this.image,
+        likes: 36,
+        date: "May 15",
+        liked: false,
+        content: this.newWrite,
+        filter: this.selectfilter,
+      };
+      this.datas.unshift(newPost);
+      this.step = 0;
+    },
+  },
+  mounted() {
+    this.emitter.on("fire", (a) => {
+      this.selectfilter = a;
+    });
   },
 };
 </script>
