@@ -16,6 +16,9 @@
   <button @click="$store.commit('changeName')">버튼</button>
   <!-- <button @click="$store.state.name = '박'">버튼</button> -->
 
+  <p>{{ $store.state.more }}</p>
+  <button @click="$store.dispatch('getData')">더보기 버튼</button>
+
   <ContainerPage
     :datas="datas"
     :step="step"
