@@ -13,7 +13,7 @@
   <h4>안녕 {{ $store.state.name }}</h4>
   <p>{{ $store.state.age }}</p>
   <button @click="$store.commit('changeAge', 10)">나이변경버튼</button>
-  <button @click="$store.commit('changeName')">버튼</button>
+  <button @click="changeName()">버튼</button>
   <!-- <button @click="$store.state.name = '박'">버튼</button> -->
 
   <p>{{ $store.state.more }}</p>
@@ -27,6 +27,11 @@
   />
   <button @click="morePost">더보기</button>
 
+  <p>{{ name }}</p>
+  <p>{{ age }} {{ likes }} {{ 작명 }}</p>
+  <p>{{ now() }} {{ counter }} {{ now2 }}</p>
+  <button @click="counter++">버튼</button>
+
   <div class="footer">
     <ul class="footer-button-plus">
       <input @change="upload" type="file" id="file" class="inputfile" />
@@ -39,6 +44,7 @@
 import ContainerPage from "./components/ContainerPage.vue";
 import instaData from "./assets/data";
 import axios from "axios";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "App",
@@ -50,10 +56,30 @@ export default {
       image: "",
       newWrite: "",
       selectfilter: "",
+      counter: 0,
     };
   },
   components: { ContainerPage },
+
+  // 처음 실행할 때 간직한 데이터를 사용할 때 보여준다.
+  // return 필수이다.
+  computed: {
+    now2() {
+      return new Date();
+    },
+    name() {
+      return this.$store.state.name;
+    },
+    ...mapState(["age", "likes"]),
+    ...mapState({ 작명: "name" }),
+  },
+  // 실행할 때 마다 함수가 실행된다.
+  // mutations
   methods: {
+    ...mapMutations(["changeName", "changeAge"]),
+    now() {
+      return new Date();
+    },
     morePost() {
       axios
         .get(`https://codingapple1.github.io/vue/more${this.count}.json`)
