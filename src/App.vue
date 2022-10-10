@@ -10,6 +10,12 @@
     <img src="./assets/logo.png" class="logo" />
   </div>
 
+  <h4>안녕 {{ $store.state.name }}</h4>
+  <p>{{ $store.state.age }}</p>
+  <button @click="$store.commit('changeAge', 10)">나이변경버튼</button>
+  <button @click="$store.commit('changeName')">버튼</button>
+  <!-- <button @click="$store.state.name = '박'">버튼</button> -->
+
   <ContainerPage
     :datas="datas"
     :step="step"

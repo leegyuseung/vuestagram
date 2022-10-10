@@ -8,11 +8,12 @@
       <span class="profile-name">{{ datas.name }}</span>
     </div>
     <div
+      @dblclick="$store.commit('changeLikes')"
       class="post-body"
       :style="{ backgroundImage: `url(${datas.postImage})` }"
     ></div>
     <div class="post-content">
-      <p>{{ datas.likes }} Likes</p>
+      <p>{{ $store.state.likes }} Likes</p>
       <p>
         <strong>{{ datas.name }}</strong> {{ datas.content }}
       </p>
