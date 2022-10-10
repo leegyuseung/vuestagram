@@ -52,7 +52,7 @@ export default {
     return {
       datas: instaData,
       count: 0,
-      step: 0,
+      step: 3,
       image: "",
       newWrite: "",
       selectfilter: "",
